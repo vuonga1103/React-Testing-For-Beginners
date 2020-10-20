@@ -4,6 +4,7 @@ import {
   cleanup,
   waitForElement,
   getByTestId,
+  getAllByTestId,
 } from "react-testing-library";
 import MoviesList from "./MoviesList";
 import { MemoryRouter } from "react-router-dom";
@@ -37,7 +38,7 @@ test("<MoviesList />", async () => {
   // Setting up a mock response
   fetch.mockResponseOnce(JSON.stringify(movies));
 
-  const { queryByTestId, getByTestId } = render(
+  const { queryByTestId, getAllByTestId } = render(
     <MemoryRouter>
       <MoviesList />
     </MemoryRouter>
@@ -52,4 +53,6 @@ test("<MoviesList />", async () => {
   expect(queryByTestId("loading")).toBeFalsy();
 
   expect(queryByTestId("movie-link").getAttribute("href")).toBe("/" + movie.id);
+
+  expect(getAllByTestId("movie-link").length).toBe(movies.results.length);
 });
